@@ -1,0 +1,79 @@
+Database Management System (DBMS)
+1. DBMS kya hai aur iska primary function?
+DBMS ek software hai jo data ko efficiently store, manage aur retrieve karne me madad karta hai. Iske main functions hain:
+
+Data storage and retrieval
+Multi-user access
+Security aur backup management
+2. DBMS vs Traditional File System (3 advantages)
+Data Redundancy kam hoti hai: Same data multiple files me store nahi hota.
+Better security: Authentication aur authorization provide karta hai.
+Concurrent access: Multiple users ek saath data access kar sakte hain bina kisi issue ke.
+3. DBMS ke main types aur examples
+Hierarchical DBMS: IBM IMS
+Network DBMS: IDS (Integrated Data Store)
+Relational DBMS (RDBMS): MySQL, PostgreSQL
+NoSQL DBMS: MongoDB, Cassandra
+4. DBMS me data security aur integrity ka role?
+DBMS access control, encryption aur authentication provide karta hai jo data ko unauthorized access se bachata hai.
+
+5. DBMS concurrent user access kaise handle karta hai?
+DBMS locking mechanisms aur transactions ka use karta hai jisse ek hi data ko multiple users efficiently access kar sakein.
+
+DBMS Architecture
+1. Three-layer DBMS architecture kya hai?
+Physical Level: Data ka actual storage format.
+Logical Level: Data structure aur relationships define karta hai.
+View Level: Users ke liye customized views create karta hai.
+2. Physical, Logical aur View levels me difference?
+Physical level: Hard disk ya cloud me data kaise store ho raha hai.
+Logical level: Tables, relationships aur constraints define karta hai.
+View level: Users ko sirf unka relevant data dikhata hai.
+3. Modular architecture ka importance?
+Modular design system ko flexible aur scalable banata hai.
+
+4. Three-schema architecture ka example?
+Ek banking system me:
+
+Physical level: Transactions hard drive/cloud me stored hoti hain.
+Logical level: Accounts, transactions aur customer tables maintain hoti hain.
+View level: Customer ko sirf uske account details dikhai deti hain.
+5. User aur DBMS ke beech communication flow?
+User → Application → DBMS (Query Processing) → Database → Response back to User
+
+Data Independence
+1. Data Independence kya hai aur iska significance?
+Data independence ka matlab hai ki users aur applications bina kisi major change ke database structure me modifications kar sakein.
+
+2. Logical vs Physical Data Independence?
+Physical Data Independence: Storage structure change ho to bhi logical structure impact nahi hota.
+Logical Data Independence: Tables ya relationships me changes se applications affect nahi hoti.
+3. Data Independence application scalability kaise improve karta hai?
+Storage ya logical changes easily handle kiye ja sakte hain, bina downtime ke.
+
+4. Real-world scenario?
+Agar ek e-commerce company apna data SQL se NoSQL me migrate kare to bhi user-facing applications bina issue ke kaam karein.
+
+5. Legacy systems me Data Independence achieve karna mushkil kyu hai?
+Old systems tightly coupled hote hain, jisme data aur application code interconnected hota hai.
+
+File System vs DBMS
+1. File System vs DBMS (5 Differences)
+Feature	File System	DBMS
+Data Redundancy	High	Low
+Security	Limited	Advanced
+Data Consistency	Low	High
+Multi-user Access	Difficult	Efficient
+Query Optimization	No	Yes
+2. Large-scale data management ke liye DBMS better kyu hai?
+DBMS efficient indexing, multi-user access aur data integrity ensure karta hai jo large-scale applications ke liye zaroori hai.
+
+3. DBMS data redundancy kaise kam karta hai?
+Normalization techniques ka use karke duplicate data ko eliminate karta hai.
+
+4. File System vs DBMS me security differences?
+File system me password protection basic hoti hai.
+DBMS me role-based access control, encryption aur audit logs available hote hain.
+5. Indexing ka role aur DBMS vs File-based storage?
+DBMS indexing se faster search operations karta hai.
+File-based storage me direct searching slow hoti hai.
