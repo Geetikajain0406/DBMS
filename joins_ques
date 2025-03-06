@@ -1,0 +1,89 @@
+create database db3;
+use db3;
+create table emp1(
+emp_id int primary key,
+emp_name varchar(20),
+dept_id int ,
+salary int,
+h_date date,
+manager_id int);
+create table dept3(
+dept_id int primary key,
+dept_name varchar(30),
+location varchar(20),
+budget int,
+manager_id int);
+insert into emp1(emp_id,emp_name,dept_id,salary,h_date,manager_id)
+values(1,'john',101,50000,'2020-01-15',2),(2, 'Alice', 101, 55000, '2021-02-10', 3),
+(3, 'Bob', 102, 60000, '2019-03-22', 4),
+(4, 'Charlie', 103, 45000, '2020-04-17', 2),
+(5, 'David', 101, 70000, '2021-06-30', 2),
+(6, 'Eve', 103, 48000, '2022-07-05', 3),
+(7, 'Frank', 102, 65000, '2020-09-10', 4),
+(8, 'Grace', 104, 70000, '2021-11-23', 5),
+(9, 'Heidi', 104, 60000, '2020-02-19', 5);
+insert into dept3(dept_id,dept_name,location,budget,manager_id)
+values(101,'HR','newyork',500000,2),
+(102, 'IT', 'San Francisco', 600000, 4),
+(103, 'Marketing', 'Chicago', 550000, 3),
+(104, 'Sales', 'Dallas', 700000, 5);
+select e.emp_name ,e.salary from emp1 as e inner join dept3 as d
+on e.dept_id=d.dept_id;
+select e.emp_name ,d.dept_name from emp1 as e left join dept3 as d 
+on e.dept_id=d.dept_id;
+select e.emp_name ,d.dept_name from emp1 as e right join dept3 as d 
+on e.dept_id=d.dept_id;
+SELECT e.emp_name, e.salary, d.dept_name
+FROM emp1 AS e
+LEFT JOIN dept3 AS d ON e.dept_id = d.dept_id
+UNION
+SELECT e.emp_name, e.salary, d.dept_name
+FROM emp1 AS e
+RIGHT JOIN dept3 AS d ON e.dept_id = d.dept_id;
+
+select e.emp_name,e.salary from emp1 as e  join dept3 as d 
+on e.dept_id=d.dept_id
+where e.salary>60000;
+select avg(e.salary) as avg_sal,d.dept_name from emp1 as e join dept3 as d 
+on e.dept_id=d.dept_id
+group by d.dept_name;
+select e1.emp_name,e2.manager_id,e2.emp_name as manager_name 
+from emp1 as e1 RIGHT join
+ emp1 as e2
+on e1.emp_id=e2.manager_id
+WHERE e2.manager_id IS NOT NULL;
+select * from emp1;
+select d.dept_name,d.budget from emp1 as e  RIGHT join dept3 as d 
+on e.dept_id=d.dept_id
+where e.emp_id is null;
+select e.emp_name,d.dept_name from emp1 as e  join dept3 as d 
+on e.dept_id=d.dept_id;
+select e.emp_name,e2.emp_name as manager_name from emp1 as e  inner join dept3 as d 
+on e.dept_id=d.dept_id
+inner join emp1 as e2 on e.manager_id=e2.emp_id
+where d.dept_name='IT';
+
+use db3;
+select e.emp_name,d.dept_name from emp1 as e left join 
+dept3 as d on e.dept_id=d.dept_id
+union
+select e.emp_name,d.dept_name from emp1 as e right join 
+dept3 as d on e.dept_id=d.dept_id;
+select e.emp_name,e1.emp_name as manager_name from emp1 as e join 
+emp1 as e1 on e.manager_id=e1.emp_id
+where e.emp_name <>e1.emp_name;
+SELECT e1.emp_name AS Employee1, e2.emp_name AS Employee2, m.emp_name AS Manager 
+FROM emp1 e1 
+JOIN emp1 e2 ON e1.manager_id = e2.manager_id AND e1.emp_id <> e2.emp_id 
+JOIN emp1 m ON e1.manager_id = m.emp_id;
+select e.emp_name,e1.emp_name as manager_name ,e.h_date as emp ,e1.h_date as man from emp1 as e join 
+emp1 as e1 on e.manager_id=e1.emp_id
+where e1.h_date >e.h_date;
+select e.emp_name,d.dept_name,e.salary from emp1 as e join 
+dept3 as d on e.dept_id=d.dept_id
+where e.salary in(select max(e.salary) from emp1 group by dept_id);
+SELECT d.dept_name, e.emp_name, e.salary 
+FROM emp1 e 
+JOIN dept2 d ON e.dept_id = d.dept_id 
+WHERE e.salary = (SELECT MAX(salary) FROM emp1 WHERE dept_id = e.dept_id);
+select d.dept_name 
