@@ -1,0 +1,152 @@
+CORRECT ANSWER
+
+1. Create Database
+CREATE DATABASE db0;
+USE db0;
+
+-- 2. Create Tables
+CREATE TABLE restaurants (
+    restaurant_id INT PRIMARY KEY,
+    name VARCHAR(30) NOT NULL,
+    location VARCHAR(30) NOT NULL,
+    cuisine_type VARCHAR(20),
+    rating INT CHECK (rating BETWEEN 1 AND 5)
+);
+
+CREATE TABLE reservations (
+    reservation_id INT PRIMARY KEY,
+    customer_id INT,
+    restaurant_id INT NOT NULL,
+    reservation_date DATE,
+    number_of_people INT,
+    total_bill_amount INT,
+    CONSTRAINT fk_check FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id)
+);
+
+-- 3. Insert Data
+INSERT INTO restaurants (restaurant_id, name, location, cuisine_type, rating) 
+VALUES 
+(1, "Bistro Resto", "Los Angeles", "Chinese", 5),
+(2, "Jeet Resto", "Los Angeles", "Italian", 4),
+(3, "Green Leaf Resto", "Delhi", "Chinese", 3),
+(4, "Haldiram", "Los Angeles", "North Indian", 2),
+(5, "Leela Resto", "South Delhi", "South Indian", 4);
+
+INSERT INTO reservations (reservation_id, customer_id, restaurant_id, reservation_date, number_of_people, total_bill_amount) 
+VALUES 
+(101, 1001, 1, '2024-11-02', 3, 5000),
+(102, 1002, 2, '2024-12-02', 5, 8000),
+(103, 1003, 3, '2024-10-04', 3, 5900),
+(104, 1004, 4, '2024-01-02', 9, 5600),
+(105, 1005, 5, '2024-03-14', 2, 2000);
+
+-- 4. Retrieve restaurants whose names contain ‘Bistro’
+SELECT * FROM restaurants WHERE name LIKE '%Bistro%';
+
+-- 5. Retrieve all restaurants located in ‘Los Angeles’
+SELECT * FROM restaurants WHERE location = 'Los Angeles';
+
+-- 6. Find the highest-rated restaurant
+SELECT name, rating FROM restaurants WHERE rating = (SELECT MAX(rating) FROM restaurants);
+
+-- 7. Update the location of a restaurant where restaurant_id is 205 to Delhi
+UPDATE restaurants SET location = 'Delhi' WHERE restaurant_id = 205;
+
+-- 8. Find restaurants with a rating lower than the average rating
+SELECT * FROM restaurants WHERE rating < (SELECT AVG(rating) FROM restaurants);
+
+-- 9. Retrieve the name and location of all restaurants that have at least one reservation
+SELECT DISTINCT r.name, r.location 
+FROM restaurants r 
+JOIN reservations res ON r.restaurant_id = res.restaurant_id;
+
+-- 10. Find the name of restaurants with rating greater than 4 that were reserved in Nov and Dec 2024
+SELECT DISTINCT r.name 
+FROM restaurants r 
+JOIN reservations res ON r.restaurant_id = res.restaurant_id
+WHERE r.rating > 4 
+AND MONTH(res.reservation_date) IN (11, 12)
+AND YEAR(res.reservation_date) = 2024;
+
+-- 11. Retrieve restaurant_id, restaurant name, along with the total number of reservations
+SELECT r.restaurant_id, r.name, COUNT(res.reservation_id) AS total_reservations
+FROM restaurants r 
+LEFT JOIN reservations res ON r.restaurant_id = res.restaurant_id
+GROUP BY r.restaurant_id, r.name;
+
+-- 12. Find the location where restaurants have the highest number of reservations
+SELECT r.location, COUNT(res.reservation_id) AS total_reservations
+FROM restaurants r 
+JOIN reservations res ON r.restaurant_id = res.restaurant_id
+GROUP BY r.location
+ORDER BY total_reservations DESC
+LIMIT 1;
+
+-- 13. Find the restaurants that have never been reserved
+SELECT r.restaurant_id, r.name 
+FROM restaurants r 
+LEFT JOIN reservations res ON r.restaurant_id = res.restaurant_id
+WHERE res.restaurant_id IS NULL;
+
+
+AND MINE ANS)
+create database db0;
+use db0;
+create table restro(
+restraurant_id int primary key,
+name varchar(30) not null,
+location varchar(30) not null,
+cuisine_type varchar(20),
+rating int);
+create table reservation(
+reservation_id int primary key,
+customer_id int,
+restraurant_id int,
+reservation_date date,
+number int,
+total_amt int);
+insert into restro(restraurant_id,name,location,cuisine_type,rating)
+values(1,"bistro resto","los angeles","chinese",5),(2,"jeet resto","los angeles","italian",4),(3,"green leaf resto","delhi","chinese",3),(4,"haldiram","los angeles","north indian",2),(5,"leela resto","south delhi","south indian",4);
+alter table reservation  add constraint fk_check foreign key(restraurant_id) references restro(restraurant_id);
+
+insert into reservation(reservation_id,customer_id,restraurant_id,reservation_date,number,total_amt)
+values(101,1001,1,'2024-11-02',3,5000),(102,1002,2,'2024-12-02',5,8000),(103,1003,3,'2024-10-04',3,5900),(104,1004,4,'2024-01-02',9,5600),(105,1005,5,'2024-03-14',2,2000);
+
+select * from restro 
+where name like "bistro%";
+
+select * from restro
+where location ="los angeles";
+
+ select name,max(rating) as highest_rating from  restro ;
+
+update restro
+set location ="delhi"
+where restraurant_id=1;
+
+select r.name,avg(r1.rating) as avg_rate  from restro as r join restro as r1
+on r1.restraurant_id=r.restraurant_id
+group by name
+having rating < avg.rating;
+
+
+select r.name,r.location from restro as r left join reservation as r1
+on r.restraurant_id=r1.restraurant_id;
+
+select name from restro as r inner join reservation r1
+on r.restraurant_id=r1.restraurant_id;
+where rating < 4 and month(r1.reservation_date ) in(nov,dec) and year(r1.reservation_date )=2024;
+
+select restraurant_id,name,count(reservation_id) from restro as r join reservation as r1
+on r.restraurant_id=r1.restraurant_id;
+
+select location max(reservation_id) as highest_reserve from restro as r join reservation as r1
+on r.restraurant_id=r1.restraurant_id 
+group by r.restraurant_id;
+
+select restraurant_id,name from restro as r join reservation as r1
+on r.restraurant_id=r1.restraurant_id
+where r1.restraurant_id is null;
+
+
+
