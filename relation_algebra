@@ -1,0 +1,8 @@
+These are the basic/fundamental operators used in Relational Algebra
+Selection(σ)
+Projection(π)
+Union(U)
+Set Difference(-)
+Set Intersection(∩)
+Rename(ρ)
+Cartesian Product(X)
