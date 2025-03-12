@@ -1,0 +1,61 @@
+create database db3;
+use db3;
+CREATE TABLE s (
+    sid INTEGER PRIMARY KEY,
+    sname VARCHAR(50) NOT NULL,
+    rating INTEGER NOT NULL,
+    age REAL NOT NULL
+);
+
+CREATE TABLE b (
+    bid INTEGER PRIMARY KEY,
+    bname VARCHAR(50) NOT NULL,
+    color VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE r (
+    sid INTEGER,
+    bid INTEGER,
+    day DATE NOT NULL,
+    PRIMARY KEY (sid, bid, day),
+    FOREIGN KEY (sid) REFERENCES s(sid) ON DELETE CASCADE,
+    FOREIGN KEY (bid) REFERENCES b(bid) ON DELETE CASCADE
+);
+
+INSERT INTO s (sid, sname, rating, age) VALUES
+(1, 'Ali', 10, 25.5),
+(2, 'Ahmed', 8, 22.0),
+(3, 'Sara', 7, 27.3),
+(4, 'Bilal', 9, 30.1),
+(5, 'Ayesha', 6, 24.8);
+
+
+INSERT INTO b (bid, bname, color) VALUES
+(101, 'Titanic', 'White'),
+(102, 'Voyager', 'Blue'),
+(103, 'Seafarer', 'Red'),
+(104, 'Wave Rider', 'Green'),
+(105, 'Ocean Breeze', 'Yellow');
+
+
+INSERT INTO r (sid, bid, day) VALUES
+(1, 101, '2025-03-10'),
+(2, 102, '2025-03-11'),
+(3, 103, '2025-03-12'),
+(4, 104, '2025-03-13'),
+(5, 105, '2025-03-14'),
+(1, 102, '2025-03-15'),
+(2, 103, '2025-03-16'),
+(3, 104, '2025-03-17'),
+(4, 105, '2025-03-18'),
+(5, 101, '2025-03-19');
+select * from s;
+select sname from s 
+where sid in(select r.sid from r where r.bid=103);
+select sname,age from s
+where age =(select min(age) from s);
+select sname,rating from s
+where rating>(select rating from s where sname='Ahmed');
+select sname from s
+where sid =(select * from r where r.sid=r.bid);
+
