@@ -1,0 +1,14 @@
+DELIMITER $$
+create procedure userinput()
+begin
+create table if not exists users(
+user_id int primary key,
+name varchar(30),
+city varchar(10)
+);
+insert into users(user_id,name,city) values (1,'geet','delhi')
+,(2,'geetika','noida'),
+(3,'gargi','faridabad');
+select * from users;
+END $$
+DELIMITER;
