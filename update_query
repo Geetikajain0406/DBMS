@@ -1,0 +1,14 @@
+UPDATE dept 
+SET location = 'New York', budget = 500000, manager_id = 2 
+WHERE dept_id = 101;
+
+UPDATE dept 
+SET location = 'San Francisco', budget = 600000, manager_id = 4 
+WHERE dept_id = 102;
+
+UPDATE dept 
+SET dept_name = 'Marketing', location = 'Chicago', budget = 550000, manager_id = 3 
+WHERE dept_id = 103;
+
+INSERT INTO dept (dept_id, dept_name, location, budget, manager_id) 
+VALUES (104, 'Sales', 'Dallas', 700000, 5);
