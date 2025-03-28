@@ -1,0 +1,9 @@
+CREATE OR REPLACE PROCEDURE UpdateSalary(empID NUMBER, percentIncrease NUMBER) IS
+BEGIN
+  UPDATE employees
+  SET salary = salary + (salary * percentIncrease / 100)
+  WHERE emp_id = empID;
+  COMMIT;
+  DBMS_OUTPUT.PUT_LINE('Salary updated successfully');
+END;
+/
