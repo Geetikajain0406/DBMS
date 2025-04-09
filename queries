@@ -1,0 +1,130 @@
+ create database db00;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use db00;
+Database changed
+mysql> create table dept(
+    -> deptid int primary key,
+    -> name varchar(10),
+    -> loc varchar(20),
+    -> manid int ,
+    -> budget int,
+    -> eyear date,
+    -> count int);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table emp(
+    -> empid int primary key,
+    -> ename varchar(20),
+    -> age int,
+    -> salary int,
+    -> deptid int,
+    -> jdate date,
+    -> jtitle varchar(10));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> alter table emp add constraint fk_id foreign key(dept_id) references dept(dept_id);
+ERROR 1072 (42000): Key column 'dept_id' doesn't exist in table
+mysql> alter table emp add constraint fk_id foreign key(deptid) references dept(depti
+d);
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from dept;
+Empty set (0.00 sec)
+
+mysql> desc dept;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| deptid | int(11)     | NO   | PRI | NULL    |       |
+| name   | varchar(10) | YES  |     | NULL    |       |
+| loc    | varchar(20) | YES  |     | NULL    |       |
+| manid  | int(11)     | YES  |     | NULL    |       |
+| budget | int(11)     | YES  |     | NULL    |       |
+| eyear  | date        | YES  |     | NULL    |       |
+| count  | int(11)     | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> desc emp;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| empid  | int(11)     | NO   | PRI | NULL    |       |
+| ename  | varchar(20) | YES  |     | NULL    |       |
+| age    | int(11)     | YES  |     | NULL    |       |
+| salary | int(11)     | YES  |     | NULL    |       |
+| deptid | int(11)     | YES  | MUL | NULL    |       |
+| jdate  | date        | YES  |     | NULL    |       |
+| jtitle | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into dept(deptid,name,loc,manid,budget,eyear,count) values
+    -> (1,'hr','new york',101,50000,2010,5),
+    ->  (2,'it','new york',101,50000,2010,5),;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql> alter table dept modify eyear year;
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  insert into dept(deptid,name,loc,manid,budget,eyear,count) values
+    -> (1, 'HR', 'New York', 101, 50000.00, 2010, 5),
+    -> (2, 'IT', 'San Francisco', 102, 150000.00, 2012, 10),
+    -> (3, 'Finance', 'Chicago', 103, 120000.00, 2011, 7),
+    -> (4, 'Marketing', 'Los Angeles', 104, 80000.00, 2013, 6),
+    -> (5, 'Sales', 'Houston', 105, 90000.00, 2014, 8),
+    -> (6, 'Operations', 'Boston', 106, 70000.00, 2015, 4),
+    -> (7, 'Support', 'Denver', 107, 60000.00, 2016, 5),
+    -> (8, 'Research', 'Seattle', 108, 140000.00, 2017, 9),
+    -> (9, 'Legal', 'Miami', 109, 110000.00, 2018, 3);
+Query OK, 9 rows affected (0.03 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+insert into emp(empid,ename,age,salary,deptid,jdate,jtitle)values
+    -> (201, 'Alice', 30, 60000, 1, '2015-06-15', 'HR Manager'),
+    -> (202, 'Bob', 35, 80000, 2, '2014-09-10', 'Software Engineer'),
+    -> (203, 'Charlie', 28, 75000, 2, '2016-07-20', 'System Analyst'),
+    -> (204, 'David', 40, 90000, 3, '2013-04-05', 'Finance Manager'),
+    -> (205, 'Eve', 27, 65000, 4, '2017-02-11', 'Marketing Lead'),
+    -> (206, 'Frank', 33, 70000, 5, '2015-08-25', 'Sales Manager'),
+    -> (207, 'Grace', 29, 72000, 6, '2018-11-19', 'Operations Specialist'),
+    -> (208, 'Hank', 45, 95000, 7, '2012-12-22', 'Support Head'),
+    -> (209, 'Ivy', 31, 88000, 8, '2016-05-14', 'Research Scientist');
+Query OK, 9 rows affected (0.03 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> select ename from emp
+    -> where salary>(select avg(salary) as average_sal from emp
+    -> group by deptid);
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select ename,salary from emp where salary>(select avg(salary) as average_sal from emp);
++-------+--------+
+| ename | salary |
++-------+--------+
+| Bob   |  80000 |
+| David |  90000 |
+| Hank  |  95000 |
+| Ivy   |  88000 |
++-------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select empid,ename,salary from emp order by salary limit1 offset 1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'limit1 offset 1' at line 1
+mysql> select empid,ename,salary from emp order by salary limit 1 offset 1;
++-------+-------+--------+
+| empid | ename | salary |
++-------+-------+--------+
+|   205 | Eve   |  65000 |
++-------+-------+--------+
+1 row in set (0.00 sec)
+
+mysql> select d.deptid,d.name from dept as d left join emp as e on d.deptid=e.deptide where e.empid is null;
+ERROR 1054 (42S22): Unknown column 'e.deptide' in 'on clause'
+mysql> select d.deptid,d.name from dept as d left join emp as e on d.deptid=e.deptid where e.empid is null;
++--------+-------+
+| deptid | name  |
++--------+-------+
+|      9 | Legal |
++--------+-------+
+1 row in set (0.00 sec)
