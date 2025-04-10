@@ -1,0 +1,76 @@
+create database db00;
+use db00;
+create table dept(
+did int primary key,
+name varchar(30),
+loc varchar(30),
+mid int,
+budget int,
+eyear year,
+count int);
+create table emp(
+eid int primary key,
+ename varchar(30),
+age int,
+salary int,
+did int,
+jdate date,
+jtitle varchar(40));
+alter table emp add constraint fk_id foreign key(did) references dept(did);
+desc emp;
+insert into dept (did ,name,loc,mid,budget ,eyear,count) values
+(1, 'HR', 'New York', 101, 50000, 2010, 5),
+(2, 'IT', 'San Francisco', 102, 150000, 2012, 10),
+(3, 'Finance', 'Chicago', 103, 120000, 2011, 7),
+(4, 'Marketing', 'Los Angeles', 104, 80000, 2013, 6),
+(5, 'Sales', 'Houston', 105, 90000, 2014, 8),
+(6, 'Operations', 'Boston', 106, 70000, 2015, 4),
+(7, 'Support', 'Denver', 107, 60000, 2016, 5),
+(8, 'Research', 'Seattle', 108, 140000, 2017, 9),
+(9, 'Legal', 'Miami', 109, 110000, 2018, 3);
+select * from dept;
+insert into emp (eid,ename,age,salary ,did ,jdate,jtitle)values
+(201, 'Alice', 30, 60000, 1, '2015-06-15', 'HR Manager'),
+(202, 'Bob', 35, 80000, 2, '2014-09-10', 'Software Engineer'),
+(203, 'Charlie', 28, 75000, 2, '2016-07-20', 'System Analyst'),
+(204, 'David', 40, 90000, 3, '2013-04-05', 'Finance Manager'),
+(205, 'Eve', 27, 65000, 4, '2017-02-11', 'Marketing Lead'),
+(206, 'Frank', 33, 70000, 5, '2015-08-25', 'Sales Manager'),
+(207, 'Grace', 29, 72000, 6, '2018-11-19', 'Operations Specialist'),
+(208, 'Hank', 45, 95000, 7, '2012-12-22', 'Support Head'),
+(209, 'Ivy', 31, 88000, 8, '2016-05-14', 'Research Scientist');
+select ename,salary from emp
+where salary >(select avg(salary) as avg_sal from emp 
+);
+select ename from emp as e join dept as d 
+on e.did=d.did 
+order by budget desc limit 3;
+select d.name,avg(e.salary) as avg_sal from dept as d join emp as e
+on e.did=d.did 
+group by d.did;
+select ename from emp
+where did=2;
+select ename,jtitle from emp
+where jtitle  like "%Manager";
+select sum(budget) as total from dept;
+select name ,count from dept 
+where count=(select max(count) from dept);
+select ename,jdate from emp
+where jdate=(select min(jdate) from emp);
+select count(*) as count_num from emp
+where age >30;
+select name,count from dept 
+where count>5
+group by did;
+select name ,loc from dept 
+where loc in ('San Francisco', 'New York');
+select name , budget from dept
+where budget =(select max(budget) from dept);
+select e.ename,d.budget from emp as e join 
+dept as d on e.did=d.did
+where d.budget<(select avg(budget) from dept);
+select d.name from emp as e join 
+dept as d on e.did=d.did
+where d.count>3
+group by d.name
+ having avg(e.salary)>75000;
