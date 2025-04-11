@@ -1,0 +1,294 @@
+mysql> create database db01;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use db01;
+Database changed
+mysql> create table emp(
+    -> emp_id int primary key,
+    -> first_name varchar(20),
+    -> last_name varchar(20),
+    -> age int,
+    -> salary float,
+    -> deptid int,
+    -> hire_d date);
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> create table dept(
+    -> deptid int primary key,
+    -> dept_name varchar(20),
+    -> manager_id int ,
+    -> location varchar(20),
+    -> budget float ,
+    -> estab int,
+    -> total_emp int);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> alter table emp add constraint fk_class foreign key(deptid) refrences dept(deptid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'refrences dept(deptid)' at line 1
+mysql> alter table dept modify estab date;
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table emp add constraint fk_deptid foreign key(deptid) refrences dept(de
+ptid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'refrences dept(deptid)' at line 1
+mysql> alter table emp add constraint fk_deptid foreign key(deptid) refrences dept(de
+
+    -> ptid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'refrences dept(de
+ptid)' at line 1
+mysql> alter table emp add constraint fk_deptid foreign key(deptid) references dept(d
+eptid);
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> insert into emp(emp_id,first_name,last_name,age,salary,deptid,hire_d)
+    -> values(1,"john","doe",28,50000.00,101,'2020-03-15'),
+    -> (2,"alice","smith",34,75000.00,102,'2018-07-23'),
+    -> (3, 'Bob', 'Johnson', 41, 60000.00, 101, '2015-11-12'),
+    -> (4, 'Emma', 'Brown', 29, 80000.00, 103, '2019-05-10'),
+    -> (5, 'Michael', 'Davis', 37, 72000.00, 104, '2016-09-01'),
+    -> (6, 'Sophia', 'Wilson', 25, 55000.00, 101, '2021-01-20'),
+    -> (7, 'Daniel', 'Anderson', 30, 90000.00, 102, '2017-06-14'),
+    -> (8, 'Olivia', 'Martinez', 45, 88000.00, 104, '2013-08-30');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`db01/emp`, CONSTRAINT `fk_deptid` FOREIGN KEY (`deptid`) REFERENCES `dept` (`deptid`))
+mysql> INSERT INTO emp (emp_id, first_name, last_name, age, salary, deptid, hire_d)
+    -> VALUES
+    -> (1, 'John', 'Doe', 28, 50000.00, 101, '2020-03-15'),
+    -> (2, 'Alice', 'Smith', 34, 75000.00, 102, '2018-07-23'),
+    -> (3, 'Bob', 'Johnson', 41, 60000.00, 101, '2015-11-12'),
+    -> (4, 'Emma', 'Brown', 29, 80000.00, 103, '2019-05-10'),
+    -> (5, 'Michael', 'Davis', 37, 72000.00, 104, '2016-09-01'),
+    -> (6, 'Sophia', 'Wilson', 25, 55000.00, 101, '2021-01-20'),
+    -> (7, 'Daniel', 'Anderson', 30, 90000.00, 102, '2017-06-14'),
+    -> (8, 'Olivia', 'Martinez', 45, 88000.00, 104, '2013-08-30');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`db01/emp`, CONSTRAINT `fk_deptid` FOREIGN KEY (`deptid`) REFERENCES `dept` (`deptid`))
+mysql> INSERT INTO dept (deptid, dept_name, manager_id, location, budget, estab, total_emp)
+    -> VALUES
+    -> (101, 'HR', 1, 'New York', 100000.00, 2000, 5),
+    -> (102, 'IT', 2, 'San Francisco', 150000.00, 2005, 10),
+    -> (103, 'Marketing', 3, 'Los Angeles', 120000.00, 2010, 8),
+    -> (104, 'Finance', 4, 'Chicago', 200000.00, 2015, 12);
+ERROR 1292 (22007): Incorrect date value: '2000' for column 'estab' at row 1
+mysql> alter table dept modify estab year;
+Query OK, 0 rows affected (0.14 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO dept (deptid, dept_name, manager_id, location, budget, estab, total_emp)
+    ->     -> VALUES
+    ->     -> (101, 'HR', 1, 'New York', 100000.00, 2000, 5),
+    ->     -> (102, 'IT', 2, 'San Francisco', 150000.00, 2005, 10),
+    ->     -> (103, 'Marketing', 3, 'Los Angeles', 120000.00, 2010, 8),
+    ->     -> (104, 'Finance', 4, 'Chicago', 200000.00, 2015, 12);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> VALUES
+    -> (101, 'HR', 1, 'New York', 100000.00, 2000, 5),
+    -> (102, 'I' at line 2
+mysql> INSERT INTO dept (deptid, dept_name, manager_id, location, budget, estab, total_emp)
+    -> VALUES
+    -> (101, 'HR', 1, 'New York', 100000.00, 2000, 5),
+    -> (102, 'IT', 2, 'San Francisco', 150000.00, 2005, 10),
+    -> (103, 'Marketing', 3, 'Los Angeles', 120000.00, 2010, 8),
+    -> (104, 'Finance', 4, 'Chicago', 200000.00, 2015, 12);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO emp (emp_id, first_name, last_name, age, salary, deptid, hire_d)
+    ->     -> VALUES
+    ->     -> (1, 'John', 'Doe', 28, 50000.00, 101, '2020-03-15'),
+    ->     -> (2, 'Alice', 'Smith', 34, 75000.00, 102, '2018-07-23'),
+    ->     -> (3, 'Bob', 'Johnson', 41, 60000.00, 101, '2015-11-12'),
+    ->     -> (4, 'Emma', 'Brown', 29, 80000.00, 103, '2019-05-10'),
+    ->     -> (5, 'Michael', 'Davis', 37, 72000.00, 104, '2016-09-01'),
+    ->     -> (6, 'Sophia', 'Wilson', 25, 55000.00, 101, '2021-01-20'),
+    ->     -> (7, 'Daniel', 'Anderson', 30, 90000.00, 102, '2017-06-14'),
+    ->     -> (8, 'Olivia', 'Martinez', 45, 88000.00, 104, '2013-08-30');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> VALUES
+    -> (1, 'John', 'Doe', 28, 50000.00, 101, '2020-03-15'),
+    -> (2,' at line 2
+mysql> INSERT INTO emp (emp_id, first_name, last_name, age, salary, deptid, hire_d)
+    -> VALUES
+    -> (1, 'John', 'Doe', 28, 50000.00, 101, '2020-03-15'),
+    -> (2, 'Alice', 'Smith', 34, 75000.00, 102, '2018-07-23'),
+    -> (3, 'Bob', 'Johnson', 41, 60000.00, 101, '2015-11-12'),
+    -> (4, 'Emma', 'Brown', 29, 80000.00, 103, '2019-05-10'),
+    -> (5, 'Michael', 'Davis', 37, 72000.00, 104, '2016-09-01'),
+    -> (6, 'Sophia', 'Wilson', 25, 55000.00, 101, '2021-01-20'),
+    -> (7, 'Daniel', 'Anderson', 30, 90000.00, 102, '2017-06-14'),
+    -> (8, 'Olivia', 'Martinez', 45, 88000.00, 104, '2013-08-30');
+Query OK, 8 rows affected (0.03 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> select first_name ,salary from emp
+    -> order by salary in desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc' at line 2
+mysql> select first_name from emp
+    -> order by salary desc;
++------------+
+| first_name |
++------------+
+| Daniel     |
+| Olivia     |
+| Emma       |
+| Alice      |
+| Michael    |
+| Bob        |
+| Sophia     |
+| John       |
++------------+
+8 rows in set (0.01 sec)
+
+mysql> select first_name from emp
+    -> order by hire_d asc;
++------------+
+| first_name |
++------------+
+| Olivia     |
+| Bob        |
+| Michael    |
+| Daniel     |
+| Alice      |
+| Emma       |
+| John       |
+| Sophia     |
++------------+
+8 rows in set (0.00 sec)
+
+mysql> sele
+
+ select first_name from emp
+    -> order by hire_d asc;
++------------+
+| first_name |
++------------+
+| Olivia     |
+| Bob        |
+| Michael    |
+| Daniel     |
+| Alice      |
+| Emma       |
+| John       |
+| Sophia     |
++------------+
+8 rows in set (0.00 sec)
+
+mysql> select sum(salary),deptid from emp as e join
+    -> dept as d on d.deptid=e.deptid
+    -> group by deptid;
+ERROR 1052 (23000): Column 'deptid' in field list is ambiguous
+mysql> select sum(salary) from emp as e join
+    ->  dept as d on d.deptid=e.deptid
+    ->  group by deptid;
+ERROR 1052 (23000): Column 'deptid' in group statement is ambiguous
+mysql>  select sum(e.salary) from emp as e join
+    -> dept as d on d.deptid=e.deptid
+    ->  group by deptid;
+ERROR 1052 (23000): Column 'deptid' in group statement is ambiguous
+mysql> select sum(e.salary) from emp as e join
+    ->  dept as d on d.deptid=e.deptid
+    -> group by e.deptid;
++---------------+
+| sum(e.salary) |
++---------------+
+|        165000 |
+|        165000 |
+|         80000 |
+|        160000 |
++---------------+
+4 rows in set (0.03 sec)
+
+mysql> select count(e.emp_id),e.deptid from emp as e join
+    -> dept as d on d.deptid=e.deptid
+    -> > group by e.deptid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by e.deptid' at line 3
+mysql>  select count(e.emp_id),e.deptid from emp as e join
+    -> dept as d on d.deptid=e.deptid
+    ->  group by e.deptid;
++-----------------+--------+
+| count(e.emp_id) | deptid |
++-----------------+--------+
+|               3 |    101 |
+|               2 |    102 |
+|               1 |    103 |
+|               2 |    104 |
++-----------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select e.first_name,e.dept_id from emp as e
+    -> join dept d on d.deptid=e.deptid
+    -> order by e.deptid asc,order by age desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by age desc' at line 3
+mysql> select first_name from emp
+    -> order by deptid asc, order by age desc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order by age desc' at line 2
+mysql>  select first_name from emp
+    -> order by deptid asc,age desc;
++------------+
+| first_name |
++------------+
+| Bob        |
+| John       |
+| Sophia     |
+| Alice      |
+| Daniel     |
+| Emma       |
+| Olivia     |
+| Michael    |
++------------+
+8 rows in set (0.00 sec)
+
+mysql>   select * from emp
+    ->  order by deptid asc,age desc;
++--------+------------+-----------+------+--------+--------+------------+
+| emp_id | first_name | last_name | age  | salary | deptid | hire_d     |
++--------+------------+-----------+------+--------+--------+------------+
+|      3 | Bob        | Johnson   |   41 |  60000 |    101 | 2015-11-12 |
+|      1 | John       | Doe       |   28 |  50000 |    101 | 2020-03-15 |
+|      6 | Sophia     | Wilson    |   25 |  55000 |    101 | 2021-01-20 |
+|      2 | Alice      | Smith     |   34 |  75000 |    102 | 2018-07-23 |
+|      7 | Daniel     | Anderson  |   30 |  90000 |    102 | 2017-06-14 |
+|      4 | Emma       | Brown     |   29 |  80000 |    103 | 2019-05-10 |
+|      8 | Olivia     | Martinez  |   45 |  88000 |    104 | 2013-08-30 |
+|      5 | Michael    | Davis     |   37 |  72000 |    104 | 2016-09-01 |
++--------+------------+-----------+------+--------+--------+------------+
+8 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+-----------+------------+---------------+--------+-------+-----------+
+| deptid | dept_name | manager_id | location      | budget | estab | total_emp |
++--------+-----------+------------+---------------+--------+-------+-----------+
+|    101 | HR        |          1 | New York      | 100000 |  2000 |         5 |
+|    102 | IT        |          2 | San Francisco | 150000 |  2005 |        10 |
+|    103 | Marketing |          3 | Los Angeles   | 120000 |  2010 |         8 |
+|    104 | Finance   |          4 | Chicago       | 200000 |  2015 |        12 |
++--------+-----------+------------+---------------+--------+-------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from emp;
++--------+------------+-----------+------+--------+--------+------------+
+| emp_id | first_name | last_name | age  | salary | deptid | hire_d     |
++--------+------------+-----------+------+--------+--------+------------+
+|      1 | John       | Doe       |   28 |  50000 |    101 | 2020-03-15 |
+|      2 | Alice      | Smith     |   34 |  75000 |    102 | 2018-07-23 |
+|      3 | Bob        | Johnson   |   41 |  60000 |    101 | 2015-11-12 |
+|      4 | Emma       | Brown     |   29 |  80000 |    103 | 2019-05-10 |
+|      5 | Michael    | Davis     |   37 |  72000 |    104 | 2016-09-01 |
+|      6 | Sophia     | Wilson    |   25 |  55000 |    101 | 2021-01-20 |
+|      7 | Daniel     | Anderson  |   30 |  90000 |    102 | 2017-06-14 |
+|      8 | Olivia     | Martinez  |   45 |  88000 |    104 | 2013-08-30 |
++--------+------------+-----------+------+--------+--------+------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM emp
+    -> WHERE salary > ALL (SELECT salary FROM emp WHERE deptid = 101);
++--------+------------+-----------+------+--------+--------+------------+
+| emp_id | first_name | last_name | age  | salary | deptid | hire_d     |
++--------+------------+-----------+------+--------+--------+------------+
+|      2 | Alice      | Smith     |   34 |  75000 |    102 | 2018-07-23 |
+|      4 | Emma       | Brown     |   29 |  80000 |    103 | 2019-05-10 |
+|      5 | Michael    | Davis     |   37 |  72000 |    104 | 2016-09-01 |
+|      7 | Daniel     | Anderson  |   30 |  90000 |    102 | 2017-06-14 |
+|      8 | Olivia     | Martinez  |   45 |  88000 |    104 | 2013-08-30 |
++--------+------------+-----------+------+--------+--------+------------+
+5 rows in set (0.01 sec)
+
+mysql>
