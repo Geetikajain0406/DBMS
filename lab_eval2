@@ -1,0 +1,47 @@
+create database db00;
+create table emp(
+eid int primary key,
+fname varchar(30),
+lname varchar(30),
+dept varchar(30),
+salary int ,
+hdate date);
+create table project (
+pid int primary key,
+pname varchar(30),
+sdate date,
+edate date,
+budget int,
+eid int);
+alter table project add constraint fk_id foreign key(eid) references emp(eid);
+insert into emp (eid ,fname ,lname,dept,salary,hdate) values
+(1,'John','Doe','HR',50000,'2020-01-15'),
+(2,'Jane','Smith','IT',60000,'2019-07-23'),
+(3,'Mary','Johnson','Finance',70000,'2018-05-12'),
+(4,'Mark','Brown','IT',80000,'2017-03-04'),
+(5,'Susan','White','HR',55000,'2021-06-01'),
+(6,'Tom','Davis','Marketing',65000,'2019-11-30');
+insert into project(pid,pname,sdate,edate,budget,eid)values
+(101,'Project A','2020-02-01','2021-02-01',50000,1),
+(102,'Project B','2021-05-01','2022-05-01',60000,2),
+(103,'Project C','2020-09-01','2021-09-01',70000,3),
+(104,'Project D','2018-01-01','2019-01-01',40000,4),
+(105,'Project E','2021-07-01','2022-07-01',45000,5),
+(106,'Project F','2019-03-01','2020-03-01',55000,6);
+select dept ,salary from emp
+order by salary desc as min_sal;
+where min_salary>20000;
+a-2
+select e.fname ,count(d.pid) as project_no from emp as e
+join project as d on e.eid=d.eid
+where d.pid;select fname
+a-3
+select e.fname,e.salary from emp as e
+join project as d on e.eid=d.eid
+where e.salary =(select avg(salary) as avg_sal from emp as e1
+where e.eid=e1.eid);
+a-4
+select count(d.pid) as project_assigned from emp
+join project as d on d.eid=e.did
+group by dept;
+a-5
