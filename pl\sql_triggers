@@ -1,0 +1,40 @@
+Ans -10
+create table mem(
+    -> mid int,
+    -> name varchar(30),
+    -> email varchar(30),
+    -> dob date);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table rem (
+    -> id int,
+    -> mid int,
+    -> msg varchar(30));
+Query OK, 0 rows affected (0.03 sec)
+
+ysql> delimiter $$
+mysql>  create trigger reminder
+    ->   after insert on mem
+    ->      for each row
+    ->     begin
+    ->     if new.dob is NULL then
+    ->     insert into rem(id,mid,msg)
+    ->      values(1,new.mid,concat("your dob is null"));
+    ->     end if;
+    ->    end $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> insert INTO mem (mid, name, email, dob)
+    -> values (1,'geet','geet@gmail.com','2000-01-01'),
+    -> (2,'geetika','geetika098@gmail.com',NULL);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from rem;
++------+------+------------------+
+| id   | mid  | msg              |
++------+------+------------------+
+|    1 |    2 | your dob is null |
++------+------+------------------+
+1 row in set (0.00 sec)
