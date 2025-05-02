@@ -1,0 +1,87 @@
+ans 1)
+create table emp(
+eid int,
+sal int,
+bonus int,
+name varchar(30));
+insert into emp(eid,sal,bonus,name)
+values(1,2300,400,'geet');
+delimiter $$
+create procedure emp01(in eid int)
+begin
+declare total int ;
+select sal as sal,bonus as bonus  from emp  where eid=eid;
+set  total=sal+bonus;
+select total;
+end $$
+delimiter ;
+
+ ans 2
+create table cust(
+cid int,
+name varchar(20),
+type1 varchar(20));
+create table ord(
+id int,
+cid int,
+msg varchar(20));
+delimiter $$
+create trigger trigu
+after insert on cust
+for each row
+begin
+if new.type1 is Null then
+insert into ord(id,cid,msg)
+values(1,new.cid,'pending');
+end if;
+end $$
+delimiter ;
+insert into cust(cid,name,type1)
+values(101,'geet',NULL); 
+
+ ans 3
+create table emp00(
+eid int,
+sal int,
+name varchar(10));
+insert into emp00(eid,sal,name)values(1,2000,'geet');
+delimiter $$
+create procedure sal00(in x int)
+begin
+declare finished int default 0;
+declare salary int;
+declare id int;
+declare cur cursor for select eid,sal from emp00
+where sal<x;
+declare continue handler for not found set finished =1;
+open cur;
+curloop:loop
+fetch cur into id,salary;
+if finished =1 then
+leave curloop;
+end if;
+select (id,salary) as output;
+end loop;
+close cur;
+end $$
+delimiter ;
+
+ans 4
+delimiter $$
+create function prime(q int,b int,c int)
+returns varchar(10)
+deterministic
+begin
+declare result varchar(10);
+if q>b and q>c then
+set result ='q is big';
+elseif q<b and b>c then
+set result ='b is big';
+else 
+set result='c is big';
+end if;
+return result;
+end $$
+delimiter ;
+
+
