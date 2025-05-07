@@ -1,0 +1,11 @@
+8.
+σ_department = 'HR' ∧ salary > 60000 (Employee)
+→ Employees in HR department with salary > 60000
+
+9.
+Employee − Manager
+→ Employees who are not managers
+
+10.
+π_emp_name (σ_sale_amount > 1000 (Employee ⨝ Sales))
+→ Names of employees who made sale > 1000
