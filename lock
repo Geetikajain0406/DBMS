@@ -1,0 +1,10 @@
+T2
+Lock-S(B)
+Read(B)
+Unlock-S(B)
+
+T1
+Lock-X(B)
+Read(B)
+Write(B)
+Unlock-X(B)
